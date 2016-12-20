@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>前端面试题</title>
+</head>
+<body>
+<script type="text/javascript">
+	//判断一个字符串中出现次数最多的字符，并统计这个次数
+	var str = "adadaaagggaaaaafff";
+	var json = {};
+	for(var i=0;i<str.length;i++){
+		if(!json[str.charAt(i)]){
+			json[str.charAt(i)] = 1;
+			//console.log(json[str.charAt(i)])
+		}else{
+			json[str.charAt(i)]++;
+			console.log(json[str.charAt(i)]++)
+		}
+	};
+	// console.log(json);
+	var iMax = 0;
+	var iIndex = "";
+	for(var i in json){
+		if(json[i]>iMax){
+			iMax = json[i];
+			iIndex = i;
+		}
+	}
+	alert("出现次数最多的字符是"+iIndex+",出现的次数为"+
+		iMax+"次");
+
+</script>
+</body>
+</html>

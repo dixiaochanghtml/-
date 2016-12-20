@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ES6新特性</title>
+</head>
+<body>
+	<script type="text/javascript">
+	//ES6新特性
+
+	//字符串变量解析
+	var name = "tom";
+	console.log("我叫："+name);
+	//ES6提供新的变量解析方式`abcd${变量名}`
+	console.log(`我叫：${name}`);
+	var  person = {
+		name: "tom",
+		age :28,
+		say: function(){
+			console.log(`我叫：${this.name},我今年：${this.age}`)
+		}
+	}
+	person.say()
+
+	// for of
+	for(var n in "abcd"){
+		//n 表示下标
+		console.log(n);
+	}
+
+	for(var m of "abcd"){
+		console.log(m);
+	}
+	for(var i of ["a","b","c"]){
+		console.log(i)
+	}
+	//对象目前不能使用for of 循环
+	/*var obj ={name :"tom"}
+	for(var j of {name:"tom"}){
+		console.log(j)
+	}*/
+
+	//Map 类型数据
+	var map = new Map();
+	console.log(map)
+	//添加数据 set(key,value)
+	map.set("name","tom");
+	//获取map数据 get(key)中数据get(key,value);
+	map.get("name","tom");
+	//删除单个数据 delete(key)
+	map.delete("name");
+	//清空整个map
+	map.clear();
+	//has(key);判断map中是否该字段
+	//map.has(key);
+	//size属性表示map中字段数量 注意size不是函数
+	map.size;
+	//map.forEach用来遍历map 三个参数：value key map
+	map.forEach(function(value,key,map){
+		console.log(value);
+		console.log(key);
+		console.log(map);
+	});
+	//补充数组forEach
+	["a","b","c"].forEach(function(value,key,map){
+		console.log(value);
+		console.log(key);
+		console.log(map);
+	});
+
+	//Set 无重复数据集合 set中不会出现相等的两个数据
+	var set = new Set();
+	//添加
+	set.add("tom");
+	//删除
+	set.delete("tom");
+	//查找是否存在
+	set.has("tom");
+	//清空
+	set.clear();
+	
+	// =>表达式创建匿名函数
+	["a","b","c"].forEach(function(value){
+		console.log(value);
+	});
+
+	//参数 =>函数体
+	["a","b","c"].forEach((value,key,arr)=>{
+		console.log(value);
+		console.log(key);
+		console.log(arr);
+	} );
+
+	//新语法中匿名函数作为对象属性时，函数执行是内部this不再是当前对象，而是window
+	//事件中的匿名函数
+	document.onkeydown = (e) =>{
+		console.log(e);
+		//此处this指向了window，不再是传统匿名函数中的绑定时间的dom对象
+		console.log(this);
+	}
+
+	//普通对象中的函数类型属性值测试
+	/*var person = {
+		name:"tom",
+		say:()=>console.log(this)
+	}
+	person.say();
+	console.log(name);*/
+
+
+	//创建第一个类
+	class Person{
+		//构造器属性 用于初始化对象的私有属性
+		constructor(name,age){
+			this.name = name;
+			this.age = age;
+			this.say = function(){
+				console.log(`我叫：${this.name}`)
+			};
+		};
+		eat(food){
+			console.log(`吃${food}!`);
+		}
+	}
+	//使用类创建第一个对象
+	var person = new Person("tom",28);
+	person.eat("饺子");
+
+
+	//字面量对象
+	var car = {
+		color:"yellow",
+	};
+
+	car.__proto__= {
+		run: function(){
+			console.log("跑起来了！！！")
+		}
+	};
+	//修正car对象__proto__属性，让其指向Person.prototype
+	car.__proto__=Person.prototype;
+	car.eat("oil");
+
+	//使用字面量方式创建Person的实例
+	var person ={
+		name:"张三",
+		age:28,
+		weight:200,
+		__proto__:Person.prototype
+	};
+
+	var person2 = new Person("tom",28);
+	//new方式创建对象 费构造函数初始化属性需要二次设置
+	person2.weight = 180;
+	//new方式创建对象 可能产生无用的私有属性名
+	var person3 = new Person();
+
+
+	//类的继承
+	class Father{
+		constructor(name,age){
+			this.name = name;
+			this.age = age;
+		}
+		say(){
+			console.log(`我叫：${this.name}`)
+		}
+	}
+	Father.prototype.location ="大北京"
+
+	class Son extends Father{
+		constructor(name,age){
+			console.log("hello world!")
+		
+
+			//类的继承在使用super之前不允许使用this关键字
+			super(name,age);
+			console.log(this);
+			this.name = "臭不要脸"
+			/*this.name = name;
+			this.age = age;*/
+		}
+		doHomework(num){
+			console.log(`${num}项作业都做完了！！！`)
+		}
+	}
+
+	var son = new Son("tom",18);
+	son.say();
+	son.doHomework(10);
+	//验证类继承产生的原性关联关系
+	console.log(son.__proto__===Son.prototype)
+	console.log(Son.prototype.__proto__===Father.prototype)
+	console.log(Father.prototype.__proto__===Object.prototype)
+	console.log(Object.prototype.__proto__===null)
+	console.log(son.__proto__.__proto__.__proto__===Object.prototype)
+	</script>
+</body>
+</html>
